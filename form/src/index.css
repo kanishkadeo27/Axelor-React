@@ -1,0 +1,77 @@
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Arial, sans-serif;
+  line-height: 1.8;
+  min-height: 100vh;
+  background: #ffffff;
+  flex-direction: column;
+}
+
+.main {
+  background-color: #fff;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  transition: transform 0.2s;
+  width: 600px;
+}
+
+
+form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+form .items {
+  width: 600px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 30px;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.items>label {
+  width: 200px;
+}
+
+.items>input {
+  width: 300px;
+}
+
+.items .radio-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.items .radio-group span {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+}
+
+.items .checkbox-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.items .checkbox-group span {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+.form-error{
+  color: red;
+  position: absolute;
+  bottom: -20px;
+  right: 60px;
+  font-size: 14px;
+}
