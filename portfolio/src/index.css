@@ -1,0 +1,331 @@
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+.home-page{
+  height: 100vh;
+}
+.hero{
+  background-color: rgb(37, 187, 132);
+  height: 20%;
+}
+
+.navbar-menu {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding: 30px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+#heading {
+  color: white;
+}
+
+.navbar-menu ul {
+  list-style-type: none;
+  padding: 0;
+  overflow: hidden;
+}
+
+.navbar-menu ul li a {
+  color: white;
+  text-decoration: none;
+  padding: 8px;
+  display: block;
+  text-align: center;
+  padding: 14px 16px;
+  float: right;
+}
+
+.navbar-menu ul li {
+  float: left;
+}
+
+/* home */
+.about {
+  background-color: gray;
+  height: 80%;
+}
+
+.about img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 30%;
+  padding: 20px;
+  border-radius: 50%;
+}
+
+.about h3, p {
+  text-align: center;
+  justify-content: center;
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+}
+/* about */
+.self-intro{
+  display: flex;
+  flex-direction: row;
+}
+.cont1{
+  width: 30%;
+  align-items: center;
+}
+.cont1 h3{
+  text-align: center;
+  justify-content: center;
+  margin-left: auto;
+  width: 100%;
+  margin-right: auto;
+  color: black;
+  font-size: 40px;
+  padding-top: 30px;
+}
+.cont1 img{
+  display: block;
+  padding: 20px;
+  width: 500px;
+  border-radius: 50%;
+}
+.cont2{
+  text-align: center;
+  justify-content: center;
+  margin: auto;
+  width: 70%;
+  color: black;
+  padding-top: 50px;
+}
+.cont2 p{
+  margin-bottom: 20px;
+}
+.download-btn{
+  padding: 20px;
+  border-radius: 15px;
+  margin-top: 15px;
+  text-decoration: none;
+  color: black;
+  background-color: bisque;
+  font-size: 20px;
+  
+}
+/* skills section */
+.skills-container h3 {
+  text-align: center;
+  justify-content: center;
+  margin-left: auto;
+  width: 70%;
+  margin-right: auto;
+  color: black;
+  font-size: 25px;
+  padding: 30px;
+}
+
+/* Container for skill bars */
+.skills-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 60px;
+}
+
+.main-container {
+  flex: 1;
+  width: 600px;
+}
+
+.main-container .wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.main-container .wrapper p {
+  width: 150px;
+}
+
+.container {
+  width: 80%;
+  background-color: #ddd;
+}
+
+.skills {
+  width: 100%;
+  text-align: right;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color:black;
+
+}
+
+.html {
+  width: 90%;
+  background-color: gray;
+}
+
+.css {
+  width: 80%;
+  background-color: gray;
+}
+
+.js {
+  width: 60%;
+  background-color: gray;
+}
+
+.c {
+  width: 90%;
+  background-color: gray;
+}
+
+.cpp {
+  width: 90%;
+  background-color: gray;
+}
+
+.react {
+  width: 60%;
+  background-color: gray;
+}
+
+.container-2 {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.gallary {
+  width: 200px;
+}
+
+.gallary img {
+  width: 100px;
+  height: auto;
+  float: left;
+}
+
+/* work section */
+.work-exp h3 {
+  text-align: center;
+  justify-content: center;
+  margin-left: auto;
+  width: 70%;
+  margin-right: auto;
+  color: black;
+  font-size: 25px;
+  padding: 30px;
+}
+
+.project {
+  display: flex;
+  margin: auto;
+  padding: 10px;
+}
+
+.project h5 {
+  margin-left: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  width: 30%;
+}
+
+.project p {
+  width: auto;
+}
+
+/* blog section */
+.blog h3 {
+  text-align: center;
+  justify-content: center;
+  margin-left: auto;
+  width: 70%;
+  margin-right: auto;
+  color: black;
+  font-size: 25px;
+  padding: 30px;
+}
+
+.card {
+  float: left;
+  margin: auto;
+  padding: 1%;
+  padding-bottom: 30px;
+}
+
+.blog-body {
+  text-align: center;
+}
+
+.blog-title {
+  font-size: 18px;
+}
+
+/* footer */
+footer {
+  position: relative;
+  width: 100%;
+  display: flex;
+  background-color: rgb(37, 187, 132);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.footer-menu {
+  padding: 10px;
+  margin-bottom: 0;
+}
+
+.footer-menu h3 {
+  text-align: center;
+  justify-content: center;
+  margin-left: auto;
+  width: 70%;
+  margin-right: auto;
+  color: white;
+  font-size: 25px;
+}
+
+.footer-menu p {
+  display: block;
+  color: white;
+  font-size: 17px;
+  width: 500px;
+  text-align: center;
+  line-height: 26px;
+}
+
+
+/* media query */
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  /* .self-intro{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: auto;
+  } */
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+
+}
