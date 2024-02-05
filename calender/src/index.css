@@ -1,0 +1,80 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: burlywood;
+}
+
+.wrapper {
+  width: 500px;
+  background-color: aliceblue;
+  text-align: center;
+  border: 1px solid black;
+}
+
+.wrapper header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 20px;
+  gap: 10px;
+  border-bottom: 1px solid gray;
+}
+
+.wrapper header > span {
+  padding: 5px;
+  border-radius: 50%;
+  border: 1px solid burlywood;
+  background-color: rgb(235, 222, 206);
+}
+.header span {
+  cursor: pointer;
+}
+.wrapper header p {
+  padding: 5px;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.calender {
+  height: 400px;
+  padding: 20px;
+}
+
+.calender .weeks li {
+  font-weight: bold;
+  line-height: 50px;
+  width: 50px;
+  height: 50px;
+}
+
+.calender ul {
+  list-style-type: none;
+  display: grid;
+  grid-template-columns: auto auto auto auto auto auto auto;
+  justify-content: space-around;
+}
+
+.calender .days li {
+  z-index: 1;
+  cursor: pointer;
+  position: relative;
+  line-height: 50px;
+  width: 50px;
+  height: 50px;
+}
+.current-date {
+  background-color: burlywood;
+  color: white;
+  font-weight: bold;
+  border-radius: 50%;
+}
