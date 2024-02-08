@@ -4,6 +4,7 @@ import { DATA } from "../constant";
 import Cart from "./Cart";
 import CardItem from "./CardItem";
 import DropdownMenu from "./Dropdown";
+import Button from 'react-bootstrap/Button';
 import { FILTER_DROPDOWN, SORT_DROPDOWN } from "../constant";
 
 function MainContainer() {
@@ -28,7 +29,7 @@ function MainContainer() {
     }
 
     setTimeout(() => {
-      setToastsList((prev) => prev.filter((item, i) => i != 0));
+      setToastsList((prev) => prev.filter((item, i) => i !== 0));
     }, 3000);
   };
 
@@ -39,10 +40,10 @@ function MainContainer() {
   };
 
   const HandleSortClick = (type) => {
-    if (type === "Price:Low to High") {
+    if (type === "Price:L-H") {
       const sortedItems = [...filteredItems].sort((a, b) => a.price - b.price);
       setFilteredItems(sortedItems);
-    } else if (type === "Price:High to Low") {
+    } else if (type === "Price:H-L") {
       const sortedItems = [...filteredItems].sort((a, b) => b.price - a.price);
       setFilteredItems(sortedItems);
     } else if (type === "Name:asc") {
@@ -57,7 +58,6 @@ function MainContainer() {
       setFilteredItems(sortedItems);
     }
   };
-
   return (
     <>
       <div className="container-fluid">
@@ -76,6 +76,15 @@ function MainContainer() {
               dropdownTitle={"Sort"}
               items={SORT_DROPDOWN}
             />
+            <div>
+            <Button variant="danger" onClick={() => setFilteredItems([...DATA])}>Reset</Button>
+              {/* <button
+                onClick={() => setFilteredItems([...DATA])}
+                className="reset-button"
+              >
+                Reset
+              </button> */}
+            </div>
           </div>
           <div className="col-md-7" style={{ padding: "10px" }}>
             <div className="row">

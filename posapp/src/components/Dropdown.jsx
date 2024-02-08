@@ -2,8 +2,8 @@ import Dropdown from "react-bootstrap/Dropdown";
 
 function DropdownMenu({ HandleFilter, items, dropdownTitle }) {
   return (
-    <Dropdown className="dropdown-container">
-      <Dropdown.Toggle variant="success" id="dropdown-basic">
+    <Dropdown>
+      <Dropdown.Toggle variant="success" id="dropdown-basic" style={{width:"80px"}}>
         {dropdownTitle}
       </Dropdown.Toggle>
 

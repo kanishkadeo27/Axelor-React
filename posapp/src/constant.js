@@ -155,11 +155,11 @@ export const FILTER_DROPDOWN = [
 export const SORT_DROPDOWN = [
   {
     id: 1,
-    title: "Price:Low to High",
+    title: "Price:L-H",
   },
   {
     id: 2,
-    title: "Price:High to Low",
+    title: "Price:H-L",
   },
   {
     id: 3,
