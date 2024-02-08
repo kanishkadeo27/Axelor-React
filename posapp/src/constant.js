@@ -21,6 +21,7 @@ export const DATA = [
     title: "Apple",
     quantity: 1,
     price: 25.0,
+    type: "Fruits",
   },
   {
     id: 2,
@@ -28,6 +29,7 @@ export const DATA = [
     title: "Banana",
     quantity: 1,
     price: 2.0,
+    type: "Fruits",
   },
   {
     id: 3,
@@ -35,6 +37,7 @@ export const DATA = [
     title: "Brinjal",
     quantity: 1,
     price: 20.0,
+    type: "Veggies",
   },
   {
     id: 4,
@@ -42,6 +45,7 @@ export const DATA = [
     title: "Broccoi",
     quantity: 1,
     price: 50.0,
+    type: "Veggies",
   },
   {
     id: 5,
@@ -49,6 +53,7 @@ export const DATA = [
     title: "Capcicum",
     quantity: 1,
     price: 4.0,
+    type: "Veggies",
   },
   {
     id: 6,
@@ -56,6 +61,7 @@ export const DATA = [
     title: "Carrot",
     quantity: 1,
     price: 10.0,
+    type: "Veggies",
   },
   {
     id: 7,
@@ -63,6 +69,7 @@ export const DATA = [
     title: "Cherry",
     quantity: 1,
     price: 8.0,
+    type: "Fruits",
   },
   {
     id: 8,
@@ -70,6 +77,7 @@ export const DATA = [
     title: "Grapes",
     quantity: 1,
     price: 40.0,
+    type: "Fruits",
   },
   {
     id: 9,
@@ -77,6 +85,7 @@ export const DATA = [
     title: "Guava",
     quantity: 1,
     price: 15.0,
+    type: "Fruits",
   },
   {
     id: 10,
@@ -84,6 +93,7 @@ export const DATA = [
     title: "Mushroom",
     quantity: 1,
     price: 12.0,
+    type: "Veggies",
   },
   {
     id: 11,
@@ -91,6 +101,7 @@ export const DATA = [
     title: "Onion",
     quantity: 1,
     price: 20.0,
+    type: "Veggies",
   },
   {
     id: 12,
@@ -98,6 +109,7 @@ export const DATA = [
     title: "Pineapple",
     quantity: 1,
     price: 100.0,
+    type: "Fruits",
   },
   {
     id: 13,
@@ -105,6 +117,7 @@ export const DATA = [
     title: "Red-chilly",
     quantity: 1,
     price: 30.0,
+    type: "Veggies",
   },
   {
     id: 14,
@@ -112,6 +125,7 @@ export const DATA = [
     title: "Strawberry",
     quantity: 1,
     price: 10.0,
+    type: "Fruits",
   },
   {
     id: 15,
@@ -119,5 +133,40 @@ export const DATA = [
     title: "Tomato",
     quantity: 1,
     price: 3.0,
+    type: "Veggies",
+  },
+];
+
+export const FILTER_DROPDOWN = [
+  {
+    id: 1,
+    title: "All",
+  },
+  {
+    id: 2,
+    title: "Fruits",
+  },
+  {
+    id: 3,
+    title: "Veggies",
+  },
+];
+
+export const SORT_DROPDOWN = [
+  {
+    id: 1,
+    title: "Price:Low to High",
+  },
+  {
+    id: 2,
+    title: "Price:High to Low",
+  },
+  {
+    id: 3,
+    title: "Name:asc",
+  },
+  {
+    id: 4,
+    title: "Name:desc",
   },
 ];

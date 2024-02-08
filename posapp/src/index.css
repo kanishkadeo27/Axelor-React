@@ -7,3 +7,16 @@
 .card-title {
   font-size: 15px;
 }
+
+.dropdown-menu{
+  width: 50px;
+}
+.dropdown-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 350px;
+}
+.dropdown-menu{
+  width: 100px;
+}

@@ -3,9 +3,12 @@ import Toasts from "./Toasts";
 import { DATA } from "../constant";
 import Cart from "./Cart";
 import CardItem from "./CardItem";
+import DropdownMenu from "./Dropdown";
+import { FILTER_DROPDOWN, SORT_DROPDOWN } from "../constant";
 
 function MainContainer() {
   const [items, addItems] = useState([]);
+  const [filteredItems, setFilteredItems] = useState([...DATA]);
   const [total, setTotal] = useState(0);
   const [toastsList, setToastsList] = useState([]);
 
@@ -29,18 +32,58 @@ function MainContainer() {
     }, 3000);
   };
 
+  const HandleFilter = (type) => {
+    const updatedData =
+      type === "All" ? DATA : DATA.filter((item) => item.type === type);
+    setFilteredItems(updatedData);
+  };
+
+  const HandleSortClick = (type) => {
+    if (type === "Price:Low to High") {
+      const sortedItems = [...filteredItems].sort((a, b) => a.price - b.price);
+      setFilteredItems(sortedItems);
+    } else if (type === "Price:High to Low") {
+      const sortedItems = [...filteredItems].sort((a, b) => b.price - a.price);
+      setFilteredItems(sortedItems);
+    } else if (type === "Name:asc") {
+      const sortedItems = [...filteredItems].sort(
+        (a, b) => a.title.charCodeAt(0) - b.title.charCodeAt(0)
+      );
+      setFilteredItems(sortedItems);
+    } else if (type === "Name:desc") {
+      const sortedItems = [...filteredItems].sort(
+        (a, b) => b.title.charCodeAt(0) - a.title.charCodeAt(0)
+      );
+      setFilteredItems(sortedItems);
+    }
+  };
+
   return (
     <>
       <div className="container-fluid">
         <div className="row">
-          <div className="col-md-8" style={{ padding: "10px" }}>
+          <div
+            className="col-md-1 dropdown-container"
+            style={{ padding: "10px" }}
+          >
+            <DropdownMenu
+              HandleFilter={HandleFilter}
+              dropdownTitle={"Filter"}
+              items={FILTER_DROPDOWN}
+            />
+            <DropdownMenu
+              HandleFilter={HandleSortClick}
+              dropdownTitle={"Sort"}
+              items={SORT_DROPDOWN}
+            />
+          </div>
+          <div className="col-md-7" style={{ padding: "10px" }}>
             <div className="row">
-              {DATA.map((item, i) => (
+              {filteredItems.map((item, i) => (
                 <CardItem key={i} item={item} handleAdd={handleAdd} />
               ))}
             </div>
           </div>
-
           <Cart items={items} total={total} />
         </div>
       </div>
