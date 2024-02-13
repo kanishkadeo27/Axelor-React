@@ -78,12 +78,6 @@ function MainContainer() {
             />
             <div>
             <Button variant="danger" onClick={() => setFilteredItems([...DATA])}>Reset</Button>
-              {/* <button
-                onClick={() => setFilteredItems([...DATA])}
-                className="reset-button"
-              >
-                Reset
-              </button> */}
             </div>
           </div>
           <div className="col-md-7" style={{ padding: "10px" }}>
