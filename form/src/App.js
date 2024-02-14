@@ -12,53 +12,52 @@ function App() {
 
   function validateForm(e) {
     e.preventDefault();
-
-    if (userName.length === 0) {
-      setErrors({
-        userName: "**username cannot be blank",
-      });
-      return false;
-    }
-    if (userName.length < 7) {
-      setErrors({
-        userName: "**length of username is too short",
-      });
-      return false;
-    }
-    setErrors({});
-    if (password === "") {
-      setErrors({
-        password: "**password cannot be blank",
-      });
-      return false;
-    }
-    if (password.length < 8) {
-      setErrors({
-        password: " **minimum length of password should be 8 characters",
-      });
-      return false;
-    }
-    if (password.length > 15) {
-      setErrors({
-        password: " **maximum length of password is 15 characters",
-      });
-      return false;
-    }
     let regexDigit = /\d/;
     let regexUpper = /[A-Z]/;
 
-    if (!regexDigit.test(password)) {
-      setErrors({
-        password: "**password should have at-least one digit",
-      });
-      return false;
+    if (userName.length === 0) {
+      setErrors((prev) => ({
+        ...prev,
+        userName: "**username cannot be blank",
+      }));
+    } else if (userName.length < 7) {
+      setErrors((prev) => ({
+        ...prev,
+        userName: "**length of username is too short",
+      }));
+    } else {
+      setErrors((prev) => ({ ...prev, userName: "" }));
     }
-
-    if (!regexUpper.test(password)) {
-      setErrors({
-        password: "**password should have at-least one uppercase letter",
-      });
-      return false;
+    if (password === "") {
+      setErrors((prev) => ({
+        ...prev,
+        password: "**password cannot be blank",
+      }));
+    } else {
+      if (password.length < 8) {
+        setErrors((prev) => ({
+          ...prev,
+          password: " **minimum length of password should be 8 characters",
+        }));
+        return false;
+      } else if (password.length > 15) {
+        setErrors((prev) => ({
+          ...prev,
+          password: " **maximum length of password is 15 characters",
+        }));
+      } else if (!regexDigit.test(password)) {
+        setErrors((prev) => ({
+          ...prev,
+          password: "**password should have at-least one digit",
+        }));
+      } else if (!regexUpper.test(password)) {
+        setErrors((prev) => ({
+          ...prev,
+          password: "**password should have at-least one uppercase letter",
+        }));
+      } else {
+        setErrors((prev) => ({ ...prev, password: " " }));
+      }
     }
   }
 
