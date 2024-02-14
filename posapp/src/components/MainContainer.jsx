@@ -1,21 +1,33 @@
 import React, { useState } from "react";
 import Toasts from "./Toasts";
-import { DATA } from "../constant";
 import Cart from "./Cart";
 import CardItem from "./CardItem";
 import DropdownMenu from "./Dropdown";
-import Button from 'react-bootstrap/Button';
-import { FILTER_DROPDOWN, SORT_DROPDOWN } from "../constant";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Popover from "react-bootstrap/Popover";
+import { DATA, SORT_DROPDOWN, FILTER_DROPDOWN } from "../constant";
 
 function MainContainer() {
-  const [items, addItems] = useState([]);
+  const [items, setItems] = useState([]);
   const [filteredItems, setFilteredItems] = useState([...DATA]);
   const [total, setTotal] = useState(0);
   const [toastsList, setToastsList] = useState([]);
+  const [activeFilter, setActiveFilter] = useState("");
+
+  const [dir, setDir] = useState({
+    priceDir: false,
+    titleDir: false,
+    catDir: false,
+  });
+
+  const [order, setOrder] = useState({
+    priceOrder: 0,
+    titleOrder: 0,
+    catOrder: 0,
+  });
 
   const handleAdd = (item) => {
-    setToastsList((prev) => [...prev, item.title]);
-
+    setToastsList((prev) => [...prev, `Added: ${item.title}`]);
     setTotal((prevTotal) => Number(prevTotal) + item.price);
     const isExist = items.find((it) => it.id === item.id);
 
@@ -23,9 +35,9 @@ function MainContainer() {
       const updatedItem = items.map((i) =>
         i.id !== item.id ? i : { ...i, quantity: i.quantity + 1 }
       );
-      addItems(updatedItem);
+      setItems(updatedItem);
     } else {
-      addItems((items) => [...items, item]);
+      setItems((items) => [...items, item]);
     }
 
     setTimeout(() => {
@@ -33,64 +45,163 @@ function MainContainer() {
     }, 3000);
   };
 
+  const handleRemove = (item) => {
+    setToastsList((prev) => [...prev, `Removed: ${clickedItem.title}`]);
+
+    const clickedItem = items.find((it) => it.id === item.id);
+    if (clickedItem.quantity == 1) {
+      setTotal((prevTotal) => Number(prevTotal) - clickedItem.price);
+      setItems((prev) => prev.filter((item) => item.id !== clickedItem.id));
+    }
+    if (clickedItem.quantity > 1) {
+      setTotal((prevTotal) => Number(prevTotal) - clickedItem.price);
+      setItems((prev) =>
+        prev.map((item2) =>
+          item2.id === item.id
+            ? { ...item2, quantity: item2.quantity - 1 }
+            : item2
+        )
+      );
+    }
+    setTimeout(() => {
+      setToastsList((prev) => prev.filter((item, i) => i !== 0));
+    }, 3000);
+  };
+
   const HandleFilter = (type) => {
+    setActiveFilter(type);
     const updatedData =
       type === "All" ? DATA : DATA.filter((item) => item.type === type);
     setFilteredItems(updatedData);
   };
 
   const HandleSortClick = (type) => {
-    if (type === "Price:L-H") {
-      const sortedItems = [...filteredItems].sort((a, b) => a.price - b.price);
-      setFilteredItems(sortedItems);
-    } else if (type === "Price:H-L") {
-      const sortedItems = [...filteredItems].sort((a, b) => b.price - a.price);
-      setFilteredItems(sortedItems);
-    } else if (type === "Name:asc") {
+    if (type === "Price") {
+      const order = dir.priceDir ? -1 : 1;
+      setOrder((prev) => ({ ...prev, priceOrder: order }));
+      setDir((prev) => ({ ...prev, priceDir: !prev.priceDir }));
       const sortedItems = [...filteredItems].sort(
-        (a, b) => a.title.charCodeAt(0) - b.title.charCodeAt(0)
+        (a, b) => order * (a.price - b.price)
       );
       setFilteredItems(sortedItems);
-    } else if (type === "Name:desc") {
+    } else if (type === "Title") {
+      const order = dir.titleDir ? -1 : 1;
+      setOrder((prev) => ({ ...prev, titleOrder: order }));
+      setDir((prev) => ({ ...prev, titleDir: !prev.titleDir }));
       const sortedItems = [...filteredItems].sort(
-        (a, b) => b.title.charCodeAt(0) - a.title.charCodeAt(0)
+        (a, b) => order * (a.title.localeCompare(b.title))
+      );
+      setFilteredItems(sortedItems);
+    } else if (type === "Catagory") {
+      const order = dir.catDir ? -1 : 1;
+      setOrder((prev) => ({ ...prev, catOrder: order }));
+      setDir((prev) => ({ ...prev, catDir: !prev.catDir }));
+      const sortedItems = [...filteredItems].sort(
+        (a, b) => order * (a.type.localeCompare(b.type))
       );
       setFilteredItems(sortedItems);
     }
   };
+
+  console.log(order);
+
   return (
     <>
+      <nav
+        className="navbar navbar-expand-lg "
+        style={{ backgroundColor: "#334155" }}
+      >
+        <div className="container-md d-flex flex-row justify-content-start align-items-center">
+          <a
+            href="#home"
+            className="navbar-brand p-2"
+            style={{ color: "#fafafa", fontWeight: "bold" }}
+          >
+            GroceryBasket
+          </a>
+          {FILTER_DROPDOWN.map((item, id) => (
+            <a
+              className={`navbar-brand p-2 navbar_links ${
+                activeFilter === item.title ? "active" : ""
+              }`}
+              style={{ color: "gray", cursor: "pointer" }}
+              onClick={() => HandleFilter(item.title)}
+              key={item.id}
+            >
+              {item.title}
+            </a>
+          ))}
+          <DropdownMenu
+            dir={dir}
+            HandleFilter={HandleSortClick}
+            items={SORT_DROPDOWN}
+            setFilteredItems={setFilteredItems}
+            DATA={DATA}
+            order={order}
+          />
+        </div>
+        <OverlayTrigger
+          trigger="click"
+          placement="bottom"
+          overlay={
+            <Popover id="popover-basic">
+              <Cart
+                items={items}
+                total={total}
+                handleAdd={handleAdd}
+                handleRemove={handleRemove}
+                className="cart_popup"
+              />
+            </Popover>
+          }
+        >
+          <button
+            type="button"
+            class="bg-transparent border-0 mx-2 position-relative"
+          >
+            <i
+              className="fa-solid fa-cart-shopping"
+              style={{
+                cursor: "pointer",
+                color: "#ffffff",
+                fontSize: "30px",
+                marginRight: "10px",
+              }}
+            ></i>
+            {items.length !== 0 ? (
+              <p className="popover_count top-0 end-0">{items.length}</p>
+            ) : (
+              null
+            )}
+          </button>
+        </OverlayTrigger>
+      </nav>
       <div className="container-fluid">
         <div className="row">
           <div
-            className="col-md-1 dropdown-container"
+            className="col-md-8 col-lg-8 col-xl-8"
             style={{ padding: "10px" }}
           >
-            <DropdownMenu
-              HandleFilter={HandleFilter}
-              dropdownTitle={"Filter"}
-              items={FILTER_DROPDOWN}
-            />
-            <DropdownMenu
-              HandleFilter={HandleSortClick}
-              dropdownTitle={"Sort"}
-              items={SORT_DROPDOWN}
-            />
-            <div>
-            <Button variant="danger" onClick={() => setFilteredItems([...DATA])}>Reset</Button>
-            </div>
-          </div>
-          <div className="col-md-7" style={{ padding: "10px" }}>
             <div className="row">
               {filteredItems.map((item, i) => (
                 <CardItem key={i} item={item} handleAdd={handleAdd} />
               ))}
             </div>
           </div>
-          <Cart items={items} total={total} />
+          <div
+            className="col-md-4 col-lg-3 col-xl-4"
+            style={{ padding: "10px" }}
+          >
+            <Cart
+              items={items}
+              total={total}
+              handleAdd={handleAdd}
+              handleRemove={handleRemove}
+            />
+          </div>
         </div>
       </div>
-      <div className="toast-container position-absolute top-0 end-0">
+      <div className="toast-container position-absolute bottom-0 end-0">
         {toastsList.map((title) => (
           <Toasts title={title} />
         ))}

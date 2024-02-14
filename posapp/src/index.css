@@ -1,26 +1,82 @@
-.img {
-  width: 90%;
-  aspect-ratio: 3/4;
+.card_img {
+  height: 200px;
   object-fit: contain;
 }
-
-.card-title {
+.card-body{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+.card_title {
   font-size: 15px;
 }
-
-.dropdown-menu{
-  width: 50px;
+.dropdown_toggle {
+  width: 80px;
+  background: transparent !important;
+  border: transparent;
+  font-size: 20px;
+  color: gray;
 }
-.dropdown-container{
+.dropdown_toggle:hover {
+  background: transparent !important;
+  color: white;
+  border: transparent;
+}
+.dropdown_toggle:active {
+  background: transparent !important;
+  color: white;
+  border: transparent;
+}
+.decrement{
+  background-color: red;
+  width: 200px;
+}
+.increment{
+  background-color: green;
+}
+.dropdown-item:hover{
+  background-color: #7c3aed !important;
+}
+.active{
+  background-color: #7c3aed !important;
+}
+#popover-basic{
+  min-width: 500px !important;
+  margin-right: 30px;
+}
+#popover-basic .cart_popup{
+  min-width: 500px !important;
+}
+.popover_count{
+  width: 30px;
+  height: 30px;
+  color: white;
+  background-color: crimson;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  margin-top: -17px;
+}
+.navbar_links:hover{
+  color: white !important;
+}
+.navbar_links.active{
+  color: white !important;
+  font-weight: bolder !important;
+  background: transparent !important;
+}
+.card{
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
   align-items: center;
-  height: 350px;
+  justify-content: center;
 }
-.dropdown-menu{
-  min-width: 100px;
-}
-.reset-button{
-  background-color: gray;
+.cart_btn{
+  background-color: #7c3aed !important;
+  border: none;
+  width: 80%;
+  font-size: 20px;
 }

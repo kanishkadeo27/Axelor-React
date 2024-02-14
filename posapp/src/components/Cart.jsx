@@ -2,20 +2,23 @@ import React from "react";
 import EmptyCart from "./EmptyCart";
 import FillCart from "./FillCart";
 
-function Cart({ items, total }) {
+function Cart({ items, handleAdd, total, handleRemove }) {
   return (
-   
-      <div className="col-md-4" style={{ padding: "10px" }}>
-        <div>
-          {items.length === 0 ? (
-            <EmptyCart />
-          ) : (
-            <>
-            <ol className="list-group list-group-numbered">
-              {items.map((item, i) => (
-                <FillCart item={item} key={i} />
-              ))}
-            </ol>       
+    <div>
+      {items.length === 0 ? (
+        <EmptyCart />
+      ) : (
+        <>
+          <ol className="list-group list-group-numbered">
+            {items.map((item, i) => (
+              <FillCart
+                item={item}
+                key={i}
+                handleAdd={handleAdd}
+                handleRemove={handleRemove}
+              />
+            ))}
+          </ol>
           <div className="d-flex justify-content-between align-items-center list-group-item">
             <div className="ms-2 me-auto">
               <div className="fw-bold">Net Total</div>
@@ -24,11 +27,9 @@ function Cart({ items, total }) {
               {total.toFixed(2)}
             </span>
           </div>
-          </>
-          )}
-        </div>
-      </div>
-    
+        </>
+      )}
+    </div>
   );
 }
 

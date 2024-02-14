@@ -7,7 +7,7 @@ function Toasts({ title }) {
         <strong className="me-auto">{title}</strong>
         <small>Just Now</small>
       </Toast.Header>
-      <Toast.Body>Added Successfully...</Toast.Body>
+      <Toast.Body>{title} Successfully...</Toast.Body>
     </Toast>
   );
 }

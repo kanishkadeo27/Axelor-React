@@ -13,6 +13,7 @@ import pineapple from "./img/pineapple.png";
 import redchilly from "./img/red-chilly.jpeg";
 import strawberry from "./img/strawberry.jpg";
 import tomato from "./img/tomato.png";
+import pumpin from "./img/pumpkin.jpeg"
 
 export const DATA = [
   {
@@ -76,7 +77,7 @@ export const DATA = [
     img: grapes,
     title: "Grapes",
     quantity: 1,
-    price: 40.0,
+    price: 100.0,
     type: "Fruits",
   },
   {
@@ -112,6 +113,14 @@ export const DATA = [
     type: "Fruits",
   },
   {
+    id: 20,
+    img: grapes,
+    title: "Grapes",
+    quantity: 1,
+    price: 100.0,
+    type: "Fruits",
+  },
+  {
     id: 13,
     img: redchilly,
     title: "Red-chilly",
@@ -135,6 +144,14 @@ export const DATA = [
     price: 3.0,
     type: "Veggies",
   },
+  {
+    id: 16,
+    img: pumpin,
+    title: "Pumpkin",
+    quantity: 1,
+    price: 5.0,
+    type: "Seeds",
+  }
 ];
 
 export const FILTER_DROPDOWN = [
@@ -150,23 +167,26 @@ export const FILTER_DROPDOWN = [
     id: 3,
     title: "Veggies",
   },
+  { 
+    id: 4, 
+    title: "Seeds" 
+  }
 ];
 
 export const SORT_DROPDOWN = [
   {
     id: 1,
-    title: "Price:L-H",
+    title: "Title",
+    order:"titleOrder"
   },
   {
     id: 2,
-    title: "Price:H-L",
+    title: "Price",
+    order:"priceOrder"
   },
   {
     id: 3,
-    title: "Name:asc",
-  },
-  {
-    id: 4,
-    title: "Name:desc",
-  },
+    title: "Catagory",
+    order:"catOrder"
+  }
 ];
