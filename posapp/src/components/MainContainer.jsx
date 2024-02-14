@@ -9,6 +9,7 @@ import { DATA, SORT_DROPDOWN, FILTER_DROPDOWN } from "../constant";
 
 function MainContainer() {
   const [items, setItems] = useState([]);
+  //useeffect
   const [filteredItems, setFilteredItems] = useState([...DATA]);
   const [total, setTotal] = useState(0);
   const [toastsList, setToastsList] = useState([]);
