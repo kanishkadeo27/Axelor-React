@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useRef } from "react";
 import Input from "./Components/Input";
 import Role from "./Components/Role";
 import Profile from "./Components/Profile";
@@ -9,6 +9,7 @@ function App() {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
+  const formRef = useRef(null);
 
   function validateForm(e) {
     e.preventDefault();
@@ -60,10 +61,16 @@ function App() {
       }
     }
   }
+  const handleReset=()=>{
+    setUserName("");
+    setPassword("");
+    setErrors({});
+    formRef.current.reset();
+  }
 
   return (
     <div className="main">
-      <form action="#" name="myForm" onSubmit={validateForm} method="post">
+      <form action="#" name="myForm" onSubmit={validateForm} method="post" ref={formRef}>
         <Input
           label="Username"
           name="userName"
@@ -102,7 +109,7 @@ function App() {
 
         <div>
           <Button type="submit" title="Login" />
-          <Button type="reset" title="Reset" />
+          <Button type="button" title="Reset" handleReset={handleReset}/>
         </div>
       </form>
     </div>

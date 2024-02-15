@@ -1,9 +1,9 @@
 import React from 'react'
 
-function Button({type,title}) {
+function Button({type,title,handleReset}) {
   return (
     <>
-      <button type={type} className="btn btn-primary">
+      <button type={type} className="btn btn-primary" onClick={handleReset}>
             {title}
           </button>
     </>
