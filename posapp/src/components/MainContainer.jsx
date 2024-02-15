@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import Toasts from "./Toasts";
 import Cart from "./Cart";
 import CardItem from "./CardItem";
@@ -7,7 +7,7 @@ import Navbar from "./Navbar";
 
 function MainContainer() {
   const [items, setItems] = useState([]);
-  const [filteredItems, setFilteredItems] = useState([...DATA]);
+  const [filteredItems, setFilteredItems] = useState([]);
   const [total, setTotal] = useState(0);
   const [toastsList, setToastsList] = useState([]);
   const [activeFilter, setActiveFilter] = useState("All");
@@ -17,6 +17,17 @@ function MainContainer() {
     titleOrder: false,
     catOrder: false,
   });
+
+  useEffect(() => {
+    const storedItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+    setItems(storedItems);
+    setFilteredItems(DATA);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("cartItems", JSON.stringify(items));
+  }, [items]);
+
 
   const handleAdd = (item) => {
     setToastsList((prev) => [...prev, `Added: ${item.title}`]);
@@ -92,76 +103,9 @@ function MainContainer() {
     }
   };
 
-  console.log(order);
 
   return (
     <>
-      {/* <nav
-        className="navbar navbar-expand-lg "
-        style={{ backgroundColor: "#334155" }}
-      >
-        <div className="container-md d-flex flex-row justify-content-start align-items-center">
-          <a
-            href="#home"
-            className="navbar-brand p-2"
-            style={{ color: "#fafafa", fontWeight: "bold" }}
-          >
-            GroceryBasket
-          </a>
-          {FILTER_DROPDOWN.map((item, id) => (
-            <span
-              className={`navbar-brand p-2 navbar_links ${
-                activeFilter === item.title ? "active" : ""
-              }`}
-              style={{ color: "gray", cursor: "pointer" }}
-              onClick={() => HandleFilter(item.title)}
-              key={item.id}
-            >
-              {item.title}
-            </span>
-          ))}
-          <DropdownMenu
-            HandleFilter={HandleSortClick}
-            items={SORT_DROPDOWN}
-            setFilteredItems={setFilteredItems}
-            DATA={DATA}
-            order={order}
-          />
-        </div>
-        <OverlayTrigger
-          trigger="click"
-          placement="bottom"
-          overlay={
-            <Popover id="popover-basic">
-              <Cart
-                items={items}
-                total={total}
-                handleAdd={handleAdd}
-                handleRemove={handleRemove}
-                className="cart_popup"
-              />
-            </Popover>
-          }
-        >
-          <button
-            type="button"
-            class="bg-transparent border-0 mx-2 position-relative"
-          >
-            <i
-              className="fa-solid fa-cart-shopping"
-              style={{
-                cursor: "pointer",
-                color: "#ffffff",
-                fontSize: "30px",
-                marginRight: "10px",
-              }}
-            ></i>
-            {items.length !== 0 ? (
-              <p className="popover_count top-0 end-0">{items.length}</p>
-            ) : null}
-          </button>
-        </OverlayTrigger>
-      </nav> */}
       <Navbar
         activeFilter={activeFilter}
         HandleFilter={HandleFilter}
