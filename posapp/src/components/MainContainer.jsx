@@ -2,18 +2,15 @@ import React, { useState } from "react";
 import Toasts from "./Toasts";
 import Cart from "./Cart";
 import CardItem from "./CardItem";
-import DropdownMenu from "./Dropdown";
-import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-import Popover from "react-bootstrap/Popover";
-import { DATA, SORT_DROPDOWN, FILTER_DROPDOWN } from "../constant";
+import { DATA} from "../constant";
+import Navbar from "./Navbar";
 
 function MainContainer() {
   const [items, setItems] = useState([]);
-  //useeffect
   const [filteredItems, setFilteredItems] = useState([...DATA]);
   const [total, setTotal] = useState(0);
   const [toastsList, setToastsList] = useState([]);
-  const [activeFilter, setActiveFilter] = useState("");
+  const [activeFilter, setActiveFilter] = useState("All");
 
   const [order, setOrder] = useState({
     priceOrder: false,
@@ -44,7 +41,7 @@ function MainContainer() {
     setToastsList((prev) => [...prev, `Removed: ${clickedItem.title}`]);
 
     const clickedItem = items.find((it) => it.id === item.id);
-    if (clickedItem.quantity == 1) {
+    if (clickedItem.quantity === 1) {
       setTotal((prevTotal) => Number(prevTotal) - clickedItem.price);
       setItems((prev) => prev.filter((item) => item.id !== clickedItem.id));
     }
@@ -99,7 +96,7 @@ function MainContainer() {
 
   return (
     <>
-      <nav
+      {/* <nav
         className="navbar navbar-expand-lg "
         style={{ backgroundColor: "#334155" }}
       >
@@ -112,7 +109,7 @@ function MainContainer() {
             GroceryBasket
           </a>
           {FILTER_DROPDOWN.map((item, id) => (
-            <a
+            <span
               className={`navbar-brand p-2 navbar_links ${
                 activeFilter === item.title ? "active" : ""
               }`}
@@ -121,7 +118,7 @@ function MainContainer() {
               key={item.id}
             >
               {item.title}
-            </a>
+            </span>
           ))}
           <DropdownMenu
             HandleFilter={HandleSortClick}
@@ -164,7 +161,18 @@ function MainContainer() {
             ) : null}
           </button>
         </OverlayTrigger>
-      </nav>
+      </nav> */}
+      <Navbar
+        activeFilter={activeFilter}
+        HandleFilter={HandleFilter}
+        handleAdd={handleAdd}
+        handleRemove={handleRemove}
+        HandleSortClick={HandleSortClick}
+        setFilteredItems={setFilteredItems}
+        order={order}
+        items={items}
+        total={total}
+      />
       <div className="container-fluid">
         <div className="row">
           <div

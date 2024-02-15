@@ -1,9 +1,9 @@
 import Dropdown from "react-bootstrap/Dropdown";
 import { useState } from "react";
+import { SORT_DROPDOWN } from "../constant";
 
 function DropdownMenu({
   HandleFilter,
-  items,
   setFilteredItems,
   DATA,
   order,
@@ -16,14 +16,15 @@ function DropdownMenu({
         Sort
       </Dropdown.Toggle>
       <Dropdown.Menu className="dropdown-menu">
-        {items.map((item, id) => (
+        {SORT_DROPDOWN.map((item, id) => (
           <Dropdown.Item
             key={item.id}
             onClick={() => {
               setActive(item);
               HandleFilter(item.title);
             }}
-            className={`${active == item && "active"}`}
+            
+            className={`${active === item && "active"}`}
           >
             {item.title}{" "}
             {active?.id === item.id ? (
