@@ -27,7 +27,7 @@ function DropdownMenu({
           >
             {item.title}{" "}
             {active?.id === item.id ? (
-              order[item.order] == 1 ? (
+              order[item.order] === true ? (
                 <i class="fa-solid fa-arrow-up"></i>
               ) : (
                 <i class="fa-solid fa-arrow-down"></i>

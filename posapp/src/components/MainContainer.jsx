@@ -15,16 +15,10 @@ function MainContainer() {
   const [toastsList, setToastsList] = useState([]);
   const [activeFilter, setActiveFilter] = useState("");
 
-  const [dir, setDir] = useState({
-    priceDir: false,
-    titleDir: false,
-    catDir: false,
-  });
-
   const [order, setOrder] = useState({
-    priceOrder: 0,
-    titleOrder: 0,
-    catOrder: 0,
+    priceOrder: false,
+    titleOrder: false,
+    catOrder: false,
   });
 
   const handleAdd = (item) => {
@@ -78,27 +72,24 @@ function MainContainer() {
 
   const HandleSortClick = (type) => {
     if (type === "Price") {
-      const order = dir.priceDir ? -1 : 1;
-      setOrder((prev) => ({ ...prev, priceOrder: order }));
-      setDir((prev) => ({ ...prev, priceDir: !prev.priceDir }));
-      const sortedItems = [...filteredItems].sort(
-        (a, b) => order * (a.price - b.price)
+      const asc = order.priceOrder ? -1 : 1;
+      setOrder((prev) => ({ ...prev, priceOrder: !order.priceOrder }));
+      const sortedItems = filteredItems.sort(
+        (a, b) => asc * (a.price - b.price)
       );
       setFilteredItems(sortedItems);
     } else if (type === "Title") {
-      const order = dir.titleDir ? -1 : 1;
-      setOrder((prev) => ({ ...prev, titleOrder: order }));
-      setDir((prev) => ({ ...prev, titleDir: !prev.titleDir }));
-      const sortedItems = [...filteredItems].sort(
-        (a, b) => order * (a.title.localeCompare(b.title))
+      const asc = order.titleOrder ? -1 : 1;
+      setOrder((prev) => ({ ...prev, titleOrder: !order.titleOrder }));
+      const sortedItems = filteredItems.sort(
+        (a, b) => asc * a.title.localeCompare(b.title)
       );
       setFilteredItems(sortedItems);
-    } else if (type === "Catagory") {
-      const order = dir.catDir ? -1 : 1;
-      setOrder((prev) => ({ ...prev, catOrder: order }));
-      setDir((prev) => ({ ...prev, catDir: !prev.catDir }));
-      const sortedItems = [...filteredItems].sort(
-        (a, b) => order * (a.type.localeCompare(b.type))
+    } else {
+      const asc = order.catOrder ? -1 : 1;
+      setOrder((prev) => ({ ...prev, catOrder: !order.catOrder }));
+      const sortedItems = filteredItems.sort(
+        (a, b) => asc * a.type.localeCompare(b.type)
       );
       setFilteredItems(sortedItems);
     }
@@ -133,7 +124,6 @@ function MainContainer() {
             </a>
           ))}
           <DropdownMenu
-            dir={dir}
             HandleFilter={HandleSortClick}
             items={SORT_DROPDOWN}
             setFilteredItems={setFilteredItems}
@@ -171,9 +161,7 @@ function MainContainer() {
             ></i>
             {items.length !== 0 ? (
               <p className="popover_count top-0 end-0">{items.length}</p>
-            ) : (
-              null
-            )}
+            ) : null}
           </button>
         </OverlayTrigger>
       </nav>

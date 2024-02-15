@@ -113,14 +113,6 @@ export const DATA = [
     type: "Fruits",
   },
   {
-    id: 20,
-    img: grapes,
-    title: "Grapes",
-    quantity: 1,
-    price: 100.0,
-    type: "Fruits",
-  },
-  {
     id: 13,
     img: redchilly,
     title: "Red-chilly",
