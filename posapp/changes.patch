@@ -1,0 +1,449 @@
+diff --git a/posapp/src/components/CardItem.jsx b/posapp/src/components/CardItem.jsx
+index acb6f4c..ab0a40e 100644
+--- a/posapp/src/components/CardItem.jsx
++++ b/posapp/src/components/CardItem.jsx
+@@ -1,21 +1,24 @@
+ import Button from "react-bootstrap/Button";
+ import Card from "react-bootstrap/Card";
+ 
+-function CardItem({ item, handleAdd }) {
++function CardItem({ item, onAdd }) {
+   return (
+- <div className="col-md-4 col-lg-3  col-sm-6 col-12  p-1 card_div">
+-      <Card >
+-        <Card.Img variant="top" src={item.img} className="card_img"  
+-        />
++    <div className="col-md-4 col-lg-3  col-sm-6 col-12  p-1 card_div">
++      <Card>
++        <Card.Img variant="top" src={item.img} className="card_img" />
+         <Card.Body>
+           <Card.Title className="card_title">{item.title}</Card.Title>
+           <Card.Text>₹ {item.price}</Card.Text>
+-          <Button variant="primary" onClick={() => handleAdd(item)} className="cart_btn">
++          <Button
++            variant="primary"
++            onClick={() => onAdd(item)}
++            className="cart_btn"
++          >
+             Add To Cart
+           </Button>
+         </Card.Body>
+       </Card>
+-      </div>
++    </div>
+   );
+ }
+ 
+diff --git a/posapp/src/components/Cart.jsx b/posapp/src/components/Cart.jsx
+index 700c416..c63d743 100644
+--- a/posapp/src/components/Cart.jsx
++++ b/posapp/src/components/Cart.jsx
+@@ -2,7 +2,7 @@ import React from "react";
+ import EmptyCart from "./EmptyCart";
+ import FillCart from "./FillCart";
+ 
+-function Cart({ items, handleAdd, total, handleRemove }) {
++function Cart({ items, total, onRemove, onAdd }) {
+   return (
+     <div>
+       {items.length === 0 ? (
+@@ -11,12 +11,7 @@ function Cart({ items, handleAdd, total, handleRemove }) {
+         <>
+           <ol className="list-group list-group-numbered">
+             {items.map((item, i) => (
+-              <FillCart
+-                item={item}
+-                key={i}
+-                handleAdd={handleAdd}
+-                handleRemove={handleRemove}
+-              />
++              <FillCart item={item} key={i} onAdd={onAdd} onRemove={onRemove} />
+             ))}
+           </ol>
+           <div className="d-flex justify-content-between align-items-center list-group-item">
+diff --git a/posapp/src/components/Dropdown.jsx b/posapp/src/components/Dropdown.jsx
+index 43ec4fb..3e3804f 100644
+--- a/posapp/src/components/Dropdown.jsx
++++ b/posapp/src/components/Dropdown.jsx
+@@ -2,36 +2,34 @@ import Dropdown from "react-bootstrap/Dropdown";
+ import { useState } from "react";
+ import { SORT_DROPDOWN } from "../constant";
+ 
+-function DropdownMenu({
+-  HandleFilter,
+-  setFilteredItems,
+-  DATA,
+-  order,
+-}) {
++function DropdownMenu({ order, handleFilter, onReset }) {
+   const [active, setActive] = useState(null);
+ 
++  const handleReset = () => {
++    setActive(null);
++    onReset();
++  };
+   return (
+     <Dropdown className="p-2">
+       <Dropdown.Toggle id="dropdown-basic" className="dropdown_toggle">
+         Sort
+       </Dropdown.Toggle>
+       <Dropdown.Menu className="dropdown-menu">
+-        {SORT_DROPDOWN.map((item, id) => (
++        {SORT_DROPDOWN.map((item) => (
+           <Dropdown.Item
+             key={item.id}
+             onClick={() => {
+               setActive(item);
+-              HandleFilter(item.title);
++              handleFilter(item.title);
+             }}
+-            
+             className={`${active === item && "active"}`}
+           >
+             {item.title}{" "}
+             {active?.id === item.id ? (
+               order[item.order] === true ? (
+-                <i class="fa-solid fa-arrow-up"></i>
++                <i className="fa-solid fa-arrow-up"></i>
+               ) : (
+-                <i class="fa-solid fa-arrow-down"></i>
++                <i className="fa-solid fa-arrow-down"></i>
+               )
+             ) : (
+               ""
+@@ -39,14 +37,7 @@ function DropdownMenu({
+           </Dropdown.Item>
+         ))}
+         <Dropdown.Divider />
+-        <Dropdown.Item
+-          onClick={() => {
+-            setActive(null);
+-            setFilteredItems([...DATA]);
+-          }}
+-        >
+-          Reset
+-        </Dropdown.Item>
++        <Dropdown.Item onClick={handleReset}>Reset</Dropdown.Item>
+       </Dropdown.Menu>
+     </Dropdown>
+   );
+diff --git a/posapp/src/components/FillCart.jsx b/posapp/src/components/FillCart.jsx
+index 0d94725..f765107 100644
+--- a/posapp/src/components/FillCart.jsx
++++ b/posapp/src/components/FillCart.jsx
+@@ -1,6 +1,4 @@
+-
+-
+-function FillCart({ item, handleRemove,handleAdd}) {
++function FillCart({ item, onRemove, onAdd }) {
+   return (
+     <>
+       <li className="d-flex justify-content-between align-items-center list-group-item">
+@@ -8,9 +6,23 @@ function FillCart({ item, handleRemove,handleAdd}) {
+           <div className="fw-bold">
+             {item.title}/₹{item.price}{" "}
+           </div>{" "}
+-          <span className="mr-2 px-1 py-1 bg-danger "  onClick={()=>handleRemove(item)}> - </span>&nbsp;
+-        {item.quantity}
+-        &nbsp;<span className="mr-2 px-1 py-1 bg-success cursor-pointer" onClick={()=>handleAdd(item)}> + </span>
++          <span
++            className="mr-2 px-1 py-1 bg-danger "
++            onClick={() => onRemove(item)}
++          >
++            {" "}
++            -{" "}
++          </span>
++          &nbsp;
++          {item.quantity}
++          &nbsp;
++          <span
++            className="mr-2 px-1 py-1 bg-success cursor-pointer"
++            onClick={() => onAdd(item)}
++          >
++            {" "}
++            +{" "}
++          </span>
+         </div>
+         <span variant="primary" className="badge rounded-pill bg-primary">
+           {item.price.toFixed(2) * item.quantity}
+diff --git a/posapp/src/components/MainContainer.jsx b/posapp/src/components/MainContainer.jsx
+index c709e04..f409d70 100644
+--- a/posapp/src/components/MainContainer.jsx
++++ b/posapp/src/components/MainContainer.jsx
+@@ -1,8 +1,8 @@
+-import React, { useState , useEffect} from "react";
++import React, { useState, useEffect } from "react";
+ import Toasts from "./Toasts";
+ import Cart from "./Cart";
+ import CardItem from "./CardItem";
+-import { DATA} from "../constant";
++import { DATA } from "../constant";
+ import Navbar from "./Navbar";
+ 
+ function MainContainer() {
+@@ -11,6 +11,7 @@ function MainContainer() {
+   const [total, setTotal] = useState(0);
+   const [toastsList, setToastsList] = useState([]);
+   const [activeFilter, setActiveFilter] = useState("All");
++  const [currentSort, setCurrentSort] = useState();
+ 
+   const [order, setOrder] = useState({
+     priceOrder: false,
+@@ -18,104 +19,91 @@ function MainContainer() {
+     catOrder: false,
+   });
+ 
+-  useEffect(() => {
+-    const storedItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+-    setItems(storedItems);
+-    setFilteredItems(DATA);
+-  }, []);
+-
+-  useEffect(() => {
+-    localStorage.setItem("cartItems", JSON.stringify(items));
+-  }, [items]);
+-
+-
+-  const handleAdd = (item) => {
+-    setToastsList((prev) => [...prev, `Added: ${item.title}`]);
+-    setTotal((prevTotal) => Number(prevTotal) + item.price);
+-    const isExist = items.find((it) => it.id === item.id);
+-
+-    if (isExist) {
+-      const updatedItem = items.map((i) =>
+-        i.id !== item.id ? i : { ...i, quantity: i.quantity + 1 }
+-      );
+-      setItems(updatedItem);
++  const handleAdd = (option) => {
++    const updatedItems = [...items];
++    const index = updatedItems.findIndex((item) => item.id === option.id);
++    if (index !== -1) {
++      updatedItems[index] = {
++        ...updatedItems[index],
++        quantity: updatedItems[index].quantity + 1,
++      };
+     } else {
+-      setItems((items) => [...items, item]);
++      updatedItems.push({ ...option, quantity: 1 });
+     }
+-
+-    setTimeout(() => {
+-      setToastsList((prev) => prev.filter((item, i) => i !== 0));
+-    }, 3000);
++    setItems(updatedItems);
++    setTotal((prevTotal) => prevTotal + option.price);
++    setToastsList((prev) => [...prev, `Added: ${option.title}`]);
++    setTimeout(() => setToastsList((prev) => prev.slice(1)), 3000);
+   };
+ 
+-  const handleRemove = (item) => {
+-    setToastsList((prev) => [...prev, `Removed: ${clickedItem.title}`]);
+-
+-    const clickedItem = items.find((it) => it.id === item.id);
+-    if (clickedItem.quantity === 1) {
+-      setTotal((prevTotal) => Number(prevTotal) - clickedItem.price);
+-      setItems((prev) => prev.filter((item) => item.id !== clickedItem.id));
+-    }
+-    if (clickedItem.quantity > 1) {
+-      setTotal((prevTotal) => Number(prevTotal) - clickedItem.price);
+-      setItems((prev) =>
+-        prev.map((item2) =>
+-          item2.id === item.id
+-            ? { ...item2, quantity: item2.quantity - 1 }
+-            : item2
+-        )
+-      );
+-    }
+-    setTimeout(() => {
+-      setToastsList((prev) => prev.filter((item, i) => i !== 0));
+-    }, 3000);
++  const handleRemove = (option) => {
++    const updatedItems = items
++      .map((item) =>
++        item.id === option.id ? { ...item, quantity: item.quantity - 1 } : item
++      )
++      .filter((item) => item.quantity > 0);
++    setItems(updatedItems);
++    setTotal((prevTotal) => prevTotal - option.price);
++    setToastsList((prev) => [...prev, `Removed: ${option.title}`]);
++    setTimeout(() => setToastsList((prev) => prev.slice(1)), 3000);
+   };
+ 
+-  const HandleFilter = (type) => {
++  const handleFilter = (type) => {
+     setActiveFilter(type);
+     const updatedData =
+       type === "All" ? DATA : DATA.filter((item) => item.type === type);
+     setFilteredItems(updatedData);
+   };
+ 
+-  const HandleSortClick = (type) => {
+-    if (type === "Price") {
+-      const asc = order.priceOrder ? -1 : 1;
+-      setOrder((prev) => ({ ...prev, priceOrder: !order.priceOrder }));
+-      const sortedItems = filteredItems.sort(
+-        (a, b) => asc * (a.price - b.price)
+-      );
+-      setFilteredItems(sortedItems);
+-    } else if (type === "Title") {
+-      const asc = order.titleOrder ? -1 : 1;
+-      setOrder((prev) => ({ ...prev, titleOrder: !order.titleOrder }));
+-      const sortedItems = filteredItems.sort(
+-        (a, b) => asc * a.title.localeCompare(b.title)
+-      );
+-      setFilteredItems(sortedItems);
+-    } else {
+-      const asc = order.catOrder ? -1 : 1;
+-      setOrder((prev) => ({ ...prev, catOrder: !order.catOrder }));
+-      const sortedItems = filteredItems.sort(
+-        (a, b) => asc * a.type.localeCompare(b.type)
+-      );
+-      setFilteredItems(sortedItems);
+-    }
++  const handleSort = (type) => {
++    setCurrentSort(type);
++    setOrder((prev) => ({
++      ...prev,
++      [type.toLowerCase() + "Order"]: !prev[type.toLowerCase() + "Order"],
++    }));
+   };
+ 
++  const handleReset = () => {
++    setCurrentSort(null);
++    setOrder({ priceOrder: false, titleOrder: false, catOrder: false });
++  };
++
++  useEffect(() => {
++    if (!currentSort) return;
++    let sortedItems = [...filteredItems];
++    const asc = order[currentSort.toLowerCase() + "Order"] ? 1 : -1;
++
++    sortedItems.sort((a, b) => {
++      if (currentSort === "Price") return asc * (a.price - b.price);
++      if (currentSort === "Title") return asc * a.title.localeCompare(b.title);
++      return asc * a.type.localeCompare(b.type);
++    });
++    setFilteredItems(sortedItems);
++  }, [order, activeFilter, currentSort]);
++
++  useEffect(() => {
++    const storedItems = JSON.parse(localStorage.getItem("cartItems")) || [];
++    setItems(storedItems);
++    setFilteredItems(DATA);
++  }, []);
++
++  useEffect(() => {
++    localStorage.setItem("cartItems", JSON.stringify(items));
++  }, [items]);
+ 
+   return (
+     <>
+       <Navbar
+         activeFilter={activeFilter}
+-        HandleFilter={HandleFilter}
+-        handleAdd={handleAdd}
+-        handleRemove={handleRemove}
+-        HandleSortClick={HandleSortClick}
+-        setFilteredItems={setFilteredItems}
+         order={order}
+         items={items}
+         total={total}
++        handleFilter={handleFilter}
++        handleAdd={handleAdd}
++        handleRemove={handleRemove}
++        handleSort={handleSort}
++        onReset={handleReset}
++        // setFilteredItems={setFilteredItems}
+       />
+       <div className="container-fluid">
+         <div className="row">
+@@ -125,7 +113,7 @@ function MainContainer() {
+           >
+             <div className="row">
+               {filteredItems.map((item, i) => (
+-                <CardItem key={i} item={item} handleAdd={handleAdd} />
++                <CardItem key={i} item={item} onAdd={handleAdd} />
+               ))}
+             </div>
+           </div>
+@@ -136,8 +124,8 @@ function MainContainer() {
+             <Cart
+               items={items}
+               total={total}
+-              handleAdd={handleAdd}
+-              handleRemove={handleRemove}
++              onAdd={handleAdd}
++              onRemove={handleRemove}
+             />
+           </div>
+         </div>
+diff --git a/posapp/src/components/Navbar.jsx b/posapp/src/components/Navbar.jsx
+index b9a0920..fdfbdaa 100644
+--- a/posapp/src/components/Navbar.jsx
++++ b/posapp/src/components/Navbar.jsx
+@@ -1,5 +1,5 @@
+ import React from "react";
+-import { FILTER_DROPDOWN , DATA} from "../constant";
++import { FILTER_DROPDOWN } from "../constant";
+ import DropdownMenu from "./Dropdown";
+ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+ import Popover from "react-bootstrap/Popover";
+@@ -7,15 +7,14 @@ import Cart from "./Cart";
+ 
+ function Navbar({
+   activeFilter,
+-  HandleFilter,
+-  handleAdd,
+-  handleRemove,
+-  HandleSortClick,
+-  setFilteredItems,
+   order,
+   items,
+-  total
+-
++  total,
++  handleFilter,
++  handleAdd,
++  handleRemove,
++  handleSort,
++  onReset,
+ }) {
+   return (
+     <>
+@@ -31,23 +30,22 @@ function Navbar({
+           >
+             GroceryBasket
+           </a>
+-          {FILTER_DROPDOWN.map((item, id) => (
++          {FILTER_DROPDOWN.map((item) => (
+             <span
+               className={`navbar-brand p-2 navbar_links ${
+                 activeFilter === item.title ? "active" : ""
+               }`}
+               style={{ color: "gray", cursor: "pointer" }}
+-              onClick={() => HandleFilter(item.title)}
++              onClick={() => handleFilter(item.title)}
+               key={item.id}
+             >
+               {item.title}
+             </span>
+           ))}
+           <DropdownMenu
+-            HandleFilter={HandleSortClick}
+-            setFilteredItems={setFilteredItems}
+-            DATA={DATA}
+             order={order}
++            handleFilter={handleSort}
++            onReset={onReset}
+           />
+         </div>
+         <OverlayTrigger
+@@ -67,7 +65,7 @@ function Navbar({
+         >
+           <button
+             type="button"
+-            class="bg-transparent border-0 mx-2 position-relative"
++            className="bg-transparent border-0 mx-2 position-relative"
+           >
+             <i
+               className="fa-solid fa-cart-shopping"

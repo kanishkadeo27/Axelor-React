@@ -1,5 +1,5 @@
 import React from "react";
-import { FILTER_DROPDOWN , DATA} from "../constant";
+import { FILTER_DROPDOWN } from "../constant";
 import DropdownMenu from "./Dropdown";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Popover from "react-bootstrap/Popover";
@@ -7,15 +7,14 @@ import Cart from "./Cart";
 
 function Navbar({
   activeFilter,
-  HandleFilter,
-  handleAdd,
-  handleRemove,
-  HandleSortClick,
-  setFilteredItems,
   order,
   items,
-  total
-
+  total,
+  handleFilter,
+  handleAdd,
+  handleRemove,
+  handleSort,
+  onReset,
 }) {
   return (
     <>
@@ -31,26 +30,26 @@ function Navbar({
           >
             GroceryBasket
           </a>
-          {FILTER_DROPDOWN.map((item, id) => (
+          {FILTER_DROPDOWN.map((item) => (
             <span
               className={`navbar-brand p-2 navbar_links ${
                 activeFilter === item.title ? "active" : ""
               }`}
               style={{ color: "gray", cursor: "pointer" }}
-              onClick={() => HandleFilter(item.title)}
+              onClick={() => handleFilter(item.title)}
               key={item.id}
             >
               {item.title}
             </span>
           ))}
           <DropdownMenu
-            HandleFilter={HandleSortClick}
-            setFilteredItems={setFilteredItems}
-            DATA={DATA}
             order={order}
+            handleSort={handleSort}
+            onReset={onReset}
           />
         </div>
         <OverlayTrigger
+        rootClose
           trigger="click"
           placement="bottom"
           overlay={
@@ -67,7 +66,7 @@ function Navbar({
         >
           <button
             type="button"
-            class="bg-transparent border-0 mx-2 position-relative"
+            className="bg-transparent border-0 mx-2 position-relative"
           >
             <i
               className="fa-solid fa-cart-shopping"

@@ -2,36 +2,35 @@ import Dropdown from "react-bootstrap/Dropdown";
 import { useState } from "react";
 import { SORT_DROPDOWN } from "../constant";
 
-function DropdownMenu({
-  HandleFilter,
-  setFilteredItems,
-  DATA,
-  order,
-}) {
+function DropdownMenu({ order, handleSort, onReset }) {
+  //state to check which dropdown menu is active
   const [active, setActive] = useState(null);
 
+  const handleReset = () => {
+    setActive(null);
+    onReset();
+  };
   return (
     <Dropdown className="p-2">
       <Dropdown.Toggle id="dropdown-basic" className="dropdown_toggle">
         Sort
       </Dropdown.Toggle>
       <Dropdown.Menu className="dropdown-menu">
-        {SORT_DROPDOWN.map((item, id) => (
+        {SORT_DROPDOWN.map((item) => (
           <Dropdown.Item
             key={item.id}
             onClick={() => {
               setActive(item);
-              HandleFilter(item.title);
+              handleSort(item.title);
             }}
-            
             className={`${active === item && "active"}`}
           >
             {item.title}{" "}
             {active?.id === item.id ? (
               order[item.order] === true ? (
-                <i class="fa-solid fa-arrow-up"></i>
+                <i className="fa-solid fa-arrow-up"></i>
               ) : (
-                <i class="fa-solid fa-arrow-down"></i>
+                <i className="fa-solid fa-arrow-down"></i>
               )
             ) : (
               ""
@@ -39,14 +38,7 @@ function DropdownMenu({
           </Dropdown.Item>
         ))}
         <Dropdown.Divider />
-        <Dropdown.Item
-          onClick={() => {
-            setActive(null);
-            setFilteredItems([...DATA]);
-          }}
-        >
-          Reset
-        </Dropdown.Item>
+        <Dropdown.Item onClick={handleReset}>Reset</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
   );

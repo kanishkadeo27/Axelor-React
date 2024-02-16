@@ -2,7 +2,7 @@ import React from "react";
 import EmptyCart from "./EmptyCart";
 import FillCart from "./FillCart";
 
-function Cart({ items, handleAdd, total, handleRemove }) {
+function Cart({ items, total, onRemove, onAdd }) {
   return (
     <div>
       {items.length === 0 ? (
@@ -11,12 +11,7 @@ function Cart({ items, handleAdd, total, handleRemove }) {
         <>
           <ol className="list-group list-group-numbered">
             {items.map((item, i) => (
-              <FillCart
-                item={item}
-                key={i}
-                handleAdd={handleAdd}
-                handleRemove={handleRemove}
-              />
+              <FillCart item={item} key={i} onAdd={onAdd} onRemove={onRemove} />
             ))}
           </ol>
           <div className="d-flex justify-content-between align-items-center list-group-item">
